@@ -14,7 +14,10 @@ CARTESIA_API_KEY = os.getenv("CARTESIA_API_KEY", '')
 CARTESIA_VOICE_ID = os.getenv('CARTESIA_VOICE_ID', 'b7d50908-b17c-442d-ad8d-810c63997ed9')
 CARTESIA_MODEL_ID = os.getenv('CARTESIA_MODEL_ID', 'sonic-english')
 CARTESIA_VERSION = os.getenv('CARTESIA_VERSION', '2024-06-10')
-SAMPLE_RATE = os.getenv("TTS_SAMPLE_RATE", "24000")
+CARTESIA_LANGUAGE = os.getenv('CARTESIA_LANGUAGE', 'en')
+CARTESIA_CONTAINER = os.getenv('CARTESIA_CONTAINER', 'raw')
+CARTESIA_ENCODING = os.getenv('CARTESIA_ENCODING', 'pcm_s16le')
+SAMPLE_RATE = os.getenv("TTS_SAMPLE_RATE", 16000)
 
 cartesia_endpoint = f"wss://api.cartesia.ai/tts/websocket?api_key={CARTESIA_API_KEY}&cartesia_version={CARTESIA_VERSION}"
 
@@ -60,11 +63,11 @@ class CartesiaTTS(TTSInterface):
                     "id": CARTESIA_VOICE_ID
                 },
                 "output_format": {
-                    "container": "raw",
-                    "encoding": "pcm_s16le",
-                    "sample_rate": SAMPLE_RATE,
+                    "container": CARTESIA_CONTAINER,
+                    "encoding": CARTESIA_ENCODING,
+                    "sample_rate": int(SAMPLE_RATE),
                 },
-                "language": "en",
+                "language": CARTESIA_LANGUAGE,
                 #"add_timestamps": True,
             }
             await self.cartesia_ws.send(json.dumps(input_message))

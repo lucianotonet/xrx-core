@@ -50,6 +50,26 @@ jobs:
           cd react-xrx-client
           npm run build
 
+  build-vue-xrx-client:
+    runs-on: ubuntu-latest
+    needs: setup
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "20"
+
+      - name: Install dependencies
+        run: |
+          cd vue-xrx-client
+          npm install
+      - name: Build
+        run: |
+          cd vue-xrx-client
+
   build-orchestrator:
     runs-on: ubuntu-latest
     needs: setup
